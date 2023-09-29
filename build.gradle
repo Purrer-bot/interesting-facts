@@ -6,6 +6,7 @@ plugins {
 	id 'org.jetbrains.kotlin.jvm' version '1.8.22'
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.8.22'
 	id 'org.jetbrains.kotlin.plugin.jpa' version '1.8.22'
+	id 'application'
 }
 
 group = 'org.purrer'
@@ -39,3 +40,5 @@ tasks.withType(KotlinCompile) {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+mainClassName = 'org.purrer.facts.FactsApplicationKt'
