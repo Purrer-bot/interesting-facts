@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Interesting Facts API - OpenAPI 3.0
+  version: '1.0'
+
+servers:
+  - url: http://localhost:8080
+paths:
+  /facts:
+    post:
+      summary: Add new interesting fact
+      description: Add new interesting fact
+      operationId: addFact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterestingFact'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestingFact'
+        '400':
+          description: Validation exception or empty request body
+    get:
+      summary: Get all interesting facts
+      operationId: getFacts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InterestingFact'
+        '400':
+          description: Invalid request
+  /facts/findByRarity:
+    get:
+      summary: Find interesting facts by its rarity
+      operationId: findFactsByRarity
+      parameters:
+        - name: rarity
+          in: query
+          description: Rarity to filter by
+          required: true
+          schema:
+            type: string
+            enum: ['COMMON', 'UNCOMMON', 'RARE', 'LEGENDARY', 'CELESTIAL']
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InterestingFact'
+        '400':
+          description: Invalid rarity value
+
+  /facts/random:
+    get:
+      summary: Get a random interesting fact
+      operationId: getRandomFact
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestingFact'
+components:
+  schemas:
+    InterestingFact:
+      type: object
+      properties:
+        content:
+          type: string
+          example: 'Насекомые ежегодно пожирают 25 - 30% мирового урожая.'
+        rarity:
+          type: string
+          enum: ['COMMON', 'UNCOMMON', 'RARE', 'LEGENDARY', 'CELESTIAL']
+          example: 'COMMON'
